@@ -29,6 +29,8 @@ function getRandom(randMin, randMax) {
 // matches /text2speech or /t2s
 bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
 
+  console.log(match);
+
   var chatId = message.chat.id;
   var text = match[2];
 
@@ -101,10 +103,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
   var monsterName = monsterNames[getRandom(0, monsterNames.length - 1)];
 
   if (command === 'gifxxx') {
-    giphyRating = giphyRatings[4];
-
-    bot.sendMessage(chatId, "🚨 NSFW: " + message.from.first_name.toUpperCase() + " THE " + monsterName + " HAS REQUESTED FILTH 🚨");
-  }
+    giphyRating = giphyRatings[4];}
 
   // console.log(message);
 
@@ -134,6 +133,10 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
     var randomIndex = getRandom(0, search.data.length - 1);
 
     var imageUrl = search.data[randomIndex].images.fixed_width_downsampled.url;
+
+    if (command === 'gifxxx') {
+      bot.sendMessage(chatId, "🚨 NSFW: " + message.from.first_name.toUpperCase() + " THE " + monsterName + " HAS REQUESTED FILTH 🚨");
+    }
 
     bot.sendDocument(chatId, request(imageUrl))
       .catch(function (err) {
