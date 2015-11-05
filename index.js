@@ -1,4 +1,4 @@
-// require('dotenv').load(); comment this out for heroku builds
+// require('dotenv').load(); // comment this out for heroku builds
 
 var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
@@ -76,7 +76,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 
   var giphyRatings = ['y', 'g', 'pg', 'pg-13', 'r'];
   var giphyRating = giphyRatings[1];
-  
+
   var monsterNames = [
     "GOBLIN",
     "WIZARD",
