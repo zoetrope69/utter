@@ -54,7 +54,7 @@ bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
               '&pitch=' + pitch +
               '&text=' + text;
 
-  bot.sendVoice(chatId, request(url)});
+  bot.sendVoice(chatId, request(url));
 });
 
 // matches gif or gifxxx
