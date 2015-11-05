@@ -1,5 +1,3 @@
-require('dotenv').load(); // load in the .env variables
-
 var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
     request  = require('request');

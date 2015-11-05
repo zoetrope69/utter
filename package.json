@@ -9,7 +9,6 @@
   "author": "Zac Colley <hi@zaccolley.com> (http://zaccolley.com)",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^1.2.0",
     "giphy": "0.0.4",
     "node-telegram-bot-api": "^0.15.0",
     "request": "^2.65.0"
