@@ -1,7 +1,7 @@
 {
-  "name": "livephotobot",
+  "name": "roborob",
   "version": "1.0.0",
-  "description": "",
+  "description": "a bot for our house telegram",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,6 +9,7 @@
   "author": "Zac Colley <hi@zaccolley.com> (http://zaccolley.com)",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^1.2.0",
     "giphy": "0.0.4",
     "node-telegram-bot-api": "^0.15.0",
     "request": "^2.65.0"

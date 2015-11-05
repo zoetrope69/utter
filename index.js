@@ -1,15 +1,74 @@
+// require('dotenv').load(); comment this out for heroku builds
+
 var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
     request  = require('request');
 
 var bot = new telegram(process.env.TELEGRAM_TOKEN, { polling: true });
 
-bot.on('message', function(message){
+console.log('Bot started!');
+
+// matches /text2speech or /t2s
+bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
+
+  console.log(match);
 
   var chatId = message.chat.id;
-  var arguments = message.text.split(' ');
-  var command = arguments[0].substring(1);
-  var searchTerms = arguments.splice(1).join(' ').toLowerCase();
+  var text = match[2];
+
+  if (!text || text.length <= 0) {
+    bot.sendMessage(chatId, "🍔 Need to send some text lad");
+    return false;
+  }
+
+  // send message that it's upping some audio
+  bot.sendChatAction(chatId, 'upload_audio');
+
+  var voices = [
+   'usenglishfemale', 'usenglishfemale2', 'usenglishmale',
+   'usenglishmale2', 'ukenglishfemale', 'ukenglishfemale2',
+   'ukenglishmale', 'auenglishfemale', 'usspanishfemale',
+   'usspanishmale', 'chchinesefemale', 'hkchinesefemale',
+   'jpjapanesefemale', 'krkoreanfemale', 'caenglishfemale',
+   'huhungarianfemale', 'brportuguesefemale', 'eurportuguesefemale',
+   'eurportuguesemale', 'eurspanishfemale', 'eurspanishmale',
+   'eurcatalanfemale', 'eurczechfemale', 'eurdanishfemale',
+   'eurfinnishfemale', 'eurfrenchfemale', 'eurfrenchmale',
+   'eurnorwegianfemale', 'eurdutchfemale', 'eurpolishfemale',
+   'euritalianfemale', 'euritalianmale', 'eurturkishfemale',
+   'eurturkishmale', 'eurgreekfemale', 'eurgermanfemale',
+   'eurgermanmale', 'rurussianfemale', 'rurussianmale',
+   'swswedishfemale', 'cafrenchfemale', 'cafrenchmale'
+ ];
+
+ var voice = voices[3],
+     speed = 0,
+     pitch = 0,
+     apiKey = '34b06ef0ba220c09a817fe7924575123';
+
+ var url = 'https://api.ispeech.org/api/rest.mp3' +
+              '?apikey=' + apiKey +
+              '&action=convert' +
+              '&voice=' + voice +
+              '&speed=' + speed +
+              '&pitch=' + pitch +
+              '&text=' + text;
+
+  bot.sendAudio(chatId, request(url), { title: text });
+});
+
+// matches gif or gifxxx
+bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
+
+  console.log(match);
+
+  var chatId = message.chat.id;
+  var command = match[1];
+
+  var searchTerms = match[2];
+  if (searchTerms.indexOf(' ') !== -1) {
+    searchTerms = match[2].split(' ').splice(1).join(' ').toLowerCase();
+  }
 
   var giphyRatings = ['y', 'g', 'pg', 'pg-13', 'r'];
   var giphyRating = giphyRatings[1];
@@ -20,9 +79,7 @@ bot.on('message', function(message){
     bot.sendMessage(chatId, "🚨 WARNING " + message.from.first_name.toUpperCase() + " THE GOBLIN HAS GONE XXX 🚨");
   }
 
-  console.log(message);
-  // console.log(command);
-  // console.log(searchTerms);
+  // console.log(message);
 
   if (searchTerms.length <= 0) {
     // send back error
@@ -42,7 +99,7 @@ bot.on('message', function(message){
 
     if (!search.data || typeof search.data === 'undefined' || search.data.length <= 0) {
       // send back error saying no image avail
-      bot.sendMessage(chatId, ":dog: No images with them keywords son.");
+      bot.sendMessage(chatId, "🚏 No images with them keywords son.");
       return false;
     }
 
@@ -58,7 +115,7 @@ bot.on('message', function(message){
         if (err) {
           // send message saying it didn't work
           console.log('Error ', err);
-          bot.sendMessage(chatId, "Something went wrong sending yo the goods");
+          bot.sendMessage(chatId, "🍔 Something went wrong sending yo the goods");
           return false;
         }
       });
