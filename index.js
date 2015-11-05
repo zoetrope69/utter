@@ -27,7 +27,7 @@ bot.on('message', function(message){
   if (command === 'gifxxx') {
     giphyRating = giphyRatings[4];
 
-    bot.sendMessage(chatId, "🚨 WARNING " + message.from.first_name.toUpperCase() + " THE " + monsterNames[Math.floor(Math.random() * ((monsterNames.length - 1) - 0 + 1)) + 0] + " HAS GONE XXX 🚨");
+    bot.sendMessage(chatId, "🚨 WARNING " + message.from.first_name.toUpperCase() + " THE " + monsterNames[randInt(0, monsterNames.length - 1)] + " HAS GONE XXX 🚨");
   }
 
   console.log(message);
@@ -59,7 +59,7 @@ bot.on('message', function(message){
     // get random image
     var randMin = 0;
     var randMax = search.data.length - 1;
-    var randomIndex = Math.floor(Math.random() * (randMax - randMin + 1)) + randMin;
+    var randomIndex = randInt(randMin, randMax);
 
     var imageUrl = search.data[randomIndex].images.fixed_width_downsampled.url;
 
@@ -76,3 +76,7 @@ bot.on('message', function(message){
   });
 
 });
+
+function randInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
