@@ -8,6 +8,10 @@ var bot = new telegram(process.env.TELEGRAM_TOKEN, { polling: true });
 
 console.log('Bot started!');
 
+function getRandom(randMin, randMax) {
+  return Math.floor(Math.random() * (randMax - randMin + 1)) + randMin;
+}
+
 // matches /text2speech or /t2s
 bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
 
@@ -41,7 +45,7 @@ bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
    'swswedishfemale', 'cafrenchfemale', 'cafrenchmale'
  ];
 
- var voice = voices[3],
+ var voice = voices[getRandom(0, voice.length - 1)],
      speed = 0,
      pitch = 0,
      apiKey = '34b06ef0ba220c09a817fe7924575123';
@@ -72,11 +76,23 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 
   var giphyRatings = ['y', 'g', 'pg', 'pg-13', 'r'];
   var giphyRating = giphyRatings[1];
+  
+  var monsterNames = [
+    "GOBLIN",
+    "WIZARD",
+    "WARLOCK",
+    "WITCH",
+    "ORC",
+    "SENPAI",
+    "JESTER"
+  ];
+
+  var monsterName = monsterNames[getRandom(0, monsterNames.length - 1)];
 
   if (command === 'gifxxx') {
     giphyRating = giphyRatings[4];
 
-    bot.sendMessage(chatId, "🚨 WARNING " + message.from.first_name.toUpperCase() + " THE GOBLIN HAS GONE XXX 🚨");
+    bot.sendMessage(chatId, "🚨 WARNING " + message.from.first_name.toUpperCase() + " THE " + monsterName + " HAS GONE XXX 🚨");
   }
 
   // console.log(message);
@@ -104,9 +120,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
     }
 
     // get random image
-    var randMin = 0;
-    var randMax = search.data.length - 1;
-    var randomIndex = Math.floor(Math.random() * (randMax - randMin + 1)) + randMin;
+    var randomIndex = getRandom(0, search.data.length - 1);
 
     var imageUrl = search.data[randomIndex].images.fixed_width_downsampled.url;
 
