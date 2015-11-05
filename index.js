@@ -15,8 +15,6 @@ function getRandom(randMin, randMax) {
 // matches /text2speech or /t2s
 bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
 
-  console.log(match);
-
   var chatId = message.chat.id;
   var text = match[2];
 
@@ -63,8 +61,6 @@ bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
 
 // matches gif or gifxxx
 bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
-
-  console.log(match);
 
   var chatId = message.chat.id;
   var command = match[1];
