@@ -88,7 +88,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
   if (command === 'gifxxx') {
     giphyRating = giphyRatings[4];
 
-    bot.sendMessage(chatId, "🚨 WARNING " + message.from.first_name.toUpperCase() + " THE " + monsterName + " HAS GONE XXX 🚨");
+    bot.sendMessage(chatId, "🚨 NSFW: " + message.from.first_name.toUpperCase() + " THE " + monsterName + " HAS REQUESTED FILTH 🚨");
   }
 
   // console.log(message);
