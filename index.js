@@ -13,11 +13,21 @@ bot.on('message', function(message){
 
   var giphyRatings = ['y', 'g', 'pg', 'pg-13', 'r'];
   var giphyRating = giphyRatings[1];
+  
+  var monsterNames = [
+    "GOBLIN",
+    "WIZARD",
+    "WARLOCK",
+    "WITCH",
+    "ORC",
+    "SENPAI",
+    "JESTER"
+  ];
 
   if (command === 'gifxxx') {
     giphyRating = giphyRatings[4];
 
-    bot.sendMessage(chatId, "🚨 WARNING " + message.from.first_name.toUpperCase() + " THE GOBLIN HAS GONE XXX 🚨");
+    bot.sendMessage(chatId, "🚨 WARNING " + message.from.first_name.toUpperCase() + " THE " + monsterNames[Math.floor(Math.random() * ((monsterNames.length - 1) - 0 + 1)) + 0] + " HAS GONE XXX 🚨");
   }
 
   console.log(message);
