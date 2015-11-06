@@ -3,7 +3,6 @@
 var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
     request  = require('request'),
-    express = require('express'),
     app = express();
 
 // respond with "hello world" when a GET request is made to the homepage
