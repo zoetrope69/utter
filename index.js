@@ -15,8 +15,6 @@ function getRandom(randMin, randMax) {
 // matches /text2speech or /t2s
 bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
 
-  console.log(match);
-
   var chatId = message.chat.id;
   var text = match[2];
 
@@ -90,8 +88,6 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 
   if (command === 'gifxxx') {
     giphyRating = giphyRatings[4];}
-
-  // console.log(message);
 
   if (searchTerms.length <= 0) {
     // send back error
