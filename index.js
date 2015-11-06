@@ -2,20 +2,7 @@ require('dotenv').load();
 
 var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
-    request  = require('request'),
-    app = express();
-
-// respond with "hello world" when a GET request is made to the homepage
-app.get('*', function(req, res) {
-  res.send('Bot online!');
-});
-
-var server = app.listen(process.env.PORT || 3000, function () {
-  var host = server.address().address;
-  var port = server.address().port;
-
-  console.log('App listening at http://%s:%s', host, port);
-});
+    request  = require('request');
 
 var bot = new telegram(process.env.TELEGRAM_TOKEN, { polling: true });
 
