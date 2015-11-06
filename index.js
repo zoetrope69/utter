@@ -1,4 +1,4 @@
-// require('dotenv').load(); // comment this out for heroku builds
+require('dotenv').load();
 
 var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
