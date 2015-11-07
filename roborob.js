@@ -20,8 +20,8 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
 
   console.log('Text sent back: ', text);
 
-  if (!text || text.length <= 0) {
-    bot.sendMessage(chatId, "🍔 Need to send some text lad");
+  if (!text || text.trim().length <= 0) {
+    bot.sendMessage(chatId, '✋ You need to add some text...');
     return false;
   }
 
@@ -116,6 +116,7 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
               '&pitch=' + pitch +
               '&text=' + text;
 
+  bot.sendMessage(chatId, '👄 “' + text + '”');
   bot.sendVoice(chatId, request(url));
 });
 
@@ -152,7 +153,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 
   if (searchTerms.length <= 0) {
     // send back error
-    bot.sendMessage(chatId, "Ya didn't give a keyword son.");
+    bot.sendMessage(chatId, '✋ You need to give some keywords...');
     return false;
   }
 
@@ -162,13 +163,13 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
   giphy.search({ q: searchTerms, rating: giphyRating }, function(err, search, res) {
     if (err) {
       console.log('Error ', err);
-      bot.sendMessage(chatId, "Giphy is fucked");
+      bot.sendMessage(chatId, "❓ Someting went wrong with Giphy...");
       return false;
     }
 
     if (!search.data || typeof search.data === 'undefined' || search.data.length <= 0) {
       // send back error saying no image avail
-      bot.sendMessage(chatId, "🚏 No images with them keywords son.");
+      bot.sendMessage(chatId, '✋ Couldn\'t find any gifs with “' + searchTerms + '”. Sorry!');
       return false;
     }
 
@@ -178,15 +179,16 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
     var imageUrl = search.data[randomIndex].images.fixed_width_downsampled.url;
 
     if (command === 'gifxxx') {
-      bot.sendMessage(chatId, "🚨 NSFW: " + message.from.first_name.toUpperCase() + " THE " + monsterName + " HAS REQUESTED FILTH 🚨");
+      bot.sendMessage(chatId, "🚨 NSFW: " + message.from.first_name.toUpperCase() + " THE " + monsterName + " HAS REQUESTED FILTH");
     }
 
+    bot.sendMessage(chatId, '📹 “' + searchTerms + '”');
     bot.sendDocument(chatId, request(imageUrl))
       .catch(function (err) {
         if (err) {
           // send message saying it didn't work
           console.log('Error ', err);
-          bot.sendMessage(chatId, "🍔 Something went wrong sending yo the goods");
+          bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
           return false;
         }
       });
