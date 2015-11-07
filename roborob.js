@@ -45,13 +45,15 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
    'swswedishfemale', 'cafrenchfemale', 'cafrenchmale'
  ];
 
- var voice = 'usenglishmale',
+ var voice = 'ukenglishmale',
      speed = 0,
      pitch = 0;
 
  // if there's a flag set the relevant voice
 
- if ( text.indexOf('🇯🇵') !== -1 || text.indexOf('🗾') !== -1 ) {
+ if ( text.indexOf('🇺🇸') !== -1 ) {
+   voice = 'usenglishmale';
+ }else if ( text.indexOf('🇯🇵') !== -1 || text.indexOf('🗾') !== -1 ) {
    voice = 'jpjapanesefemale';
  }else if ( text.indexOf('🇨🇳') !== -1 ) {
    voice = 'chchinesefemale';
