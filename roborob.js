@@ -2,7 +2,8 @@ require('dotenv').load();
 
 var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
-    request  = require('request');
+    request  = require('request'),
+    gemoji   = require('gemoji');
 
 var bot = new telegram(process.env.TELEGRAM_TOKEN, { polling: true });
 
@@ -116,22 +117,36 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
               '&pitch=' + pitch +
               '&text=' + text;
 
-  bot.sendMessage(chatId, '👄 “' + text + '”');
   bot.sendVoice(chatId, request(url));
 });
 
 // matches gif or gifxxx
 bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 
-  var chatId = message.chat.id;
-  var command = match[1];
-
-  var searchTerms = match[2];
-  if (searchTerms.indexOf(' ') !== -1) {
-    searchTerms = match[2].split(' ').splice(1).join(' ').toLowerCase();
-  }
+  var chatId = message.chat.id,
+      command = match[1],
+      searchTerms = match[2];
 
   console.log('Text sent back: ', searchTerms);
+
+  // replace the emojis with their description
+
+  // split the emoji into array
+  searchTerms = searchTerms.split(/([\uD800-\uDBFF][\uDC00-\uDFFF]| )/);
+
+  for (var i = 0; i < searchTerms.length; i++) {
+    var searchTerm = searchTerms[i];
+
+    // the item in the array is in the emoji list...
+    if (searchTerm in gemoji.unicode) {
+      // ...then turn it into it's description
+      searchTerms[i] = gemoji.unicode[searchTerm].description;
+    }
+
+  }
+
+  // join back to string, remove spaces and reduce to one space
+  searchTerms = searchTerms.join(' ').trim().replace(/ +(?= )/g,'');
 
   var giphyRatings = ['y', 'g', 'pg', 'pg-13', 'r'];
   var giphyRating = giphyRatings[1];
@@ -182,7 +197,6 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
       bot.sendMessage(chatId, "🚨 NSFW: " + message.from.first_name.toUpperCase() + " THE " + monsterName + " HAS REQUESTED FILTH");
     }
 
-    bot.sendMessage(chatId, '📹 “' + searchTerms + '”');
     bot.sendDocument(chatId, request(imageUrl))
       .catch(function (err) {
         if (err) {
