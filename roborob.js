@@ -43,11 +43,66 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
    'swswedishfemale', 'cafrenchfemale', 'cafrenchmale'
  ];
 
- // 7 is all the way up to the english ones
- var voice = 'ukenglishmale',
+ var voice = 'usenglishmale',
      speed = 0,
-     pitch = 0,
-     apiKey = '34b06ef0ba220c09a817fe7924575123';
+     pitch = 0;
+
+ // if there's a flag set the relevant voice
+
+ if ( text.indexOf('🇯🇵') !== -1 || text.indexOf('🗾') !== -1 ) {
+   voice = 'jpjapanesefemale';
+ }else if ( text.indexOf('🇨🇳') !== -1 ) {
+   voice = 'chchinesefemale';
+ }else if ( text.indexOf('🇰🇷') !== -1 ) {
+   voice = 'krkoreanfemale';
+ }else if ( text.indexOf('🇨🇦') !== -1 || text.indexOf('🍁') !== -1 ) {
+   voice = 'caenglishfemale';
+ }else if ( text.indexOf('🇭🇺') !== -1) {
+   voice = 'huhungarianfemale';
+ }else if ( text.indexOf('🇧🇷') !== -1) {
+   voice = 'brportuguesefemale';
+ }else if ( text.indexOf('🇧🇷') !== -1) {
+   voice = 'brportuguesefemale';
+ }else if ( text.indexOf('🇵🇹') !== -1) {
+   voice = 'eurportuguesefemale';
+ }else if ( text.indexOf('🇪🇸') !== -1) {
+   voice = 'eurspanishfemale';
+ }else if ( text.indexOf('🇨🇿') !== -1) {
+   voice = 'eurczechfemale';
+ }else if ( text.indexOf('🇩🇰') !== -1) {
+   voice = 'eurdanishfemale';
+ }else if ( text.indexOf('🇫🇮') !== -1) {
+   voice = 'eurfinnishfemale';
+ }else if ( text.indexOf('🇫🇷') !== -1) {
+   voice = 'eurfrenchfemale';
+ }else if ( text.indexOf('🇳🇴') !== -1) {
+   voice = 'eurnorwegianfemale';
+ }else if ( text.indexOf('🇳🇱') !== -1) {
+   voice = 'eurdutchfemale';
+ }else if ( text.indexOf('🇵🇱') !== -1) {
+   voice = 'eurpolishfemale';
+ }else if ( text.indexOf('🇮🇹') !== -1) {
+   voice = 'euritalianmale';
+ }else if ( text.indexOf('🇹🇷') !== -1) {
+   voice = 'eurturkishfemale';
+ }else if ( text.indexOf('🇬🇷') !== -1) {
+   voice = 'eurgreekfemale';
+ }else if ( text.indexOf('🇩🇪') !== -1) {
+   voice = 'eurgermanmale';
+ }else if ( text.indexOf('🇷🇺') !== -1) {
+   voice = 'rurussianfemale';
+ }else if ( text.indexOf('🇸🇪') !== -1) {
+   voice = 'swswedishfemale';
+ }
+
+ // check for snail or rabbit emoji for speeds
+ if ( text.indexOf('🐇') !== -1 || text.indexOf('🐰') != -1) {
+   speed = 5;
+ }else if ( text.indexOf('🐌') != -1 ) {
+   speed = -10;
+ }
+
+ var apiKey = '34b06ef0ba220c09a817fe7924575123';
 
  var url = 'https://api.ispeech.org/api/rest.mp3' +
               '?apikey=' + apiKey +
