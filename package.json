@@ -2,9 +2,9 @@
   "name": "roborob",
   "version": "1.0.0",
   "description": "a bot for our house telegram",
-  "main": "index.js",
+  "main": "roborob.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node roborob.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Zac Colley <hi@zaccolley.com> (http://zaccolley.com)",
