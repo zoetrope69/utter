@@ -18,6 +18,8 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
   var chatId = message.chat.id;
   var text = match[2];
 
+  console.log('Text sent back: ', text);
+
   if (!text || text.length <= 0) {
     bot.sendMessage(chatId, "🍔 Need to send some text lad");
     return false;
@@ -125,6 +127,8 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
   if (searchTerms.indexOf(' ') !== -1) {
     searchTerms = match[2].split(' ').splice(1).join(' ').toLowerCase();
   }
+
+  console.log('Text sent back: ', searchTerms);
 
   var giphyRatings = ['y', 'g', 'pg', 'pg-13', 'r'];
   var giphyRating = giphyRatings[1];
