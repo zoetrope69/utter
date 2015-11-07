@@ -44,7 +44,7 @@ bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
  ];
 
  // 7 is all the way up to the english ones
- var voice = voices[getRandom(0, 7)],
+ var voice = 'ukenglishmale',
      speed = 0,
      pitch = 0,
      apiKey = '34b06ef0ba220c09a817fe7924575123';
