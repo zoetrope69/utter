@@ -126,6 +126,22 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
     searchTerms = match[2].split(' ').splice(1).join(' ').toLowerCase();
   }
 
+  searchTerms = searchTerms.split(/([\uD800-\uDBFF][\uDC00-\uDFFF]| )/);
+
+  searchTerms = searchTerms.filter(function(val) {
+      if(val === "" || !/\S/g.test(val)) {
+          return false;
+      }
+      return true;
+  });
+
+  for (var i = 0; i < searchTerms.length; i++) {
+      if(gemoji.unicode[searchTerms[i]] !== undefined) {
+          var index = searchTerms.indexOf(searchTerms[i]);
+          searchTerms[index] = gemoji.unicode[searchTerms[i]].description;
+      }
+  }
+
   var giphyRatings = ['y', 'g', 'pg', 'pg-13', 'r'];
   var giphyRating = giphyRatings[1];
 
