@@ -12,8 +12,8 @@ function getRandom(randMin, randMax) {
   return Math.floor(Math.random() * (randMax - randMin + 1)) + randMin;
 }
 
-// matches /text2speech or /t2s
-bot.onText(/\/(text2speech|t2s) (.+)/, function (message, match) {
+// matches /speak
+bot.onText(/\/(speak) (.+)/, function (message, match) {
 
   var chatId = message.chat.id;
   var text = match[2];
