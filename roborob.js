@@ -126,8 +126,10 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
     searchTerms = match[2].split(' ').splice(1).join(' ').toLowerCase();
   }
 
+  // Split the emoji into array
   searchTerms = searchTerms.split(/([\uD800-\uDBFF][\uDC00-\uDFFF]| )/);
 
+  // Clean it up
   searchTerms = searchTerms.filter(function(val) {
       if(val === "" || !/\S/g.test(val)) {
           return false;
@@ -135,6 +137,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
       return true;
   });
 
+  // Replace the emojis with their description
   for (var i = 0; i < searchTerms.length; i++) {
       if(gemoji.unicode[searchTerms[i]] !== undefined) {
           var index = searchTerms.indexOf(searchTerms[i]);
