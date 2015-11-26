@@ -107,6 +107,21 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
    speed = -10;
  }
 
+ // add sloppy
+ if( text.indexOf('💦') !== -1 ) {
+   var first = true;
+   text.split(" ").map(function(word) {
+     if(first === true) {
+       first = false;
+       return word;
+     }
+     if(Math.round(Math.random()) === 1) {
+       return "sloppy " + word;
+     }
+     return word;
+   });
+ }
+
  var apiKey = '34b06ef0ba220c09a817fe7924575123';
 
  var url = 'https://api.ispeech.org/api/rest.mp3' +
