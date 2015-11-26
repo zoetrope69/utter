@@ -109,13 +109,7 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
 
  // add sloppy
  if( text.indexOf('💦') !== -1 ) {
-   var first = true;
    text = text.split(" ").map(function(word) {
-     if(first === true) {
-       first = false;
-       return word;
-     }
-
      if ((Math.ceil(Math.random() * 3)) % 3 === 0) {
        return "sloppy " + word;
      }
