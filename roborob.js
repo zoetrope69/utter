@@ -13,6 +13,10 @@ function getRandom(randMin, randMax) {
   return Math.floor(Math.random() * (randMax - randMin + 1)) + randMin;
 }
 
+function replaceAll(str, find, replace) {
+  return str.replace(new RegExp(find, 'g'), replace);
+}
+
 // matches /speak
 bot.onText(/\/(speak) (.+)/, function (message, match) {
 
@@ -108,7 +112,7 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
  }
 
  // add sloppy
- if( text.indexOf('💦') !== -1 ) {
+ if ( text.indexOf('💦') !== -1 ) {
    text = text.split(" ").map(function(word) {
      if ((Math.ceil(Math.random() * 5)) % 5 === 0) {
        return "sloppy " + word;
@@ -116,6 +120,13 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
 
      return word;
    }).join(" ");
+ }
+
+ if ( text.indexOf('😮') !== -1 ) {
+
+   // replace all vowels with o
+   text = replaceAll(text, '[aeiou]+', 'o');
+
  }
 
  var apiKey = '34b06ef0ba220c09a817fe7924575123';
