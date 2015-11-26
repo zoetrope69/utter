@@ -110,16 +110,18 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
  // add sloppy
  if( text.indexOf('💦') !== -1 ) {
    var first = true;
-   text.split(" ").map(function(word) {
+   text = text.split(" ").map(function(word) {
      if(first === true) {
        first = false;
        return word;
      }
-     if(Math.round(Math.random()) === 1) {
+
+     if ((Math.ceil(Math.random() * 3)) % 3 === 0) {
        return "sloppy " + word;
      }
+
      return word;
-   });
+   }).join(" ");
  }
 
  var apiKey = '34b06ef0ba220c09a817fe7924575123';
