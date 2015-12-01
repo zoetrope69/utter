@@ -253,14 +253,26 @@ bot.onText(/\/(spycecam)/, function(message, match) {
     timeout: 0 // take immediately
   });
 
-  camera.start();
-
   camera.on('start', function(err, timestamp){
-  	console.log('Started taking a photo at ' + timestamp);
+    if (err) {
+      // send message saying it didn't work
+      console.log('Error ', err);
+      bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
+      return false;
+    }
+
+    console.log('Started taking a photo at ' + timestamp);
     bot.sendMessage(chatId, '📷 Taking a picture!');
   });
 
   camera.on('read', function(err, timestamp, filename){
+    if (err) {
+      // send message saying it didn't work
+      console.log('Error ', err);
+      bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
+      return false;
+    }
+
   	console.log('Photo captured with filename: ' + filename);
 
     bot.sendMessage(chatId, '⚡ SNAP. Here it comes...');
@@ -285,8 +297,10 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 
   });
 
-  camera.on('exit', function( timestamp){
+  camera.on('exit', function(timestamp){
   	console.log('Stopped taking a photo');
   });
+
+  camera.start();
 
 });
