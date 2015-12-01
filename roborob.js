@@ -244,7 +244,7 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 
   var chatId = message.chat.id;
 
-  var picPath = './photos/photo_'+ (new Date().getTime()) +'.jpg';
+  var picPath = './photos/secret_spyce_island_photo_'+ (new Date().getTime()) +'.jpg';
 
   var camera = new RaspiCam({
     mode: 'photo',
@@ -275,15 +275,19 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 
   	console.log('Photo captured with filename: ' + filename);
 
+    camera.stop();
+
+  });
+
+  camera.on('exit', function(timestamp){
+  	console.log('Stopped taking a photo');
+
     bot.sendMessage(chatId, '⚡ SNAP. Here it comes...');
 
     // send message that it's upping a photo
     bot.sendChatAction(chatId, 'upload_photo');
 
     bot.sendDocument(chatId, picPath)
-      .then(function () {
-        camera.stop();
-      })
       .catch(function (err) {
         if (err) {
           // send message saying it didn't work
@@ -291,14 +295,7 @@ bot.onText(/\/(spycecam)/, function(message, match) {
           bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
           return false;
         }
-
-        camera.stop();
       });
-
-  });
-
-  camera.on('exit', function(timestamp){
-  	console.log('Stopped taking a photo');
   });
 
   camera.start();
