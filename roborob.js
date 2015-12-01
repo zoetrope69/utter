@@ -244,7 +244,7 @@ bot.onText(/\/(webcam)/, function(message, match) {
 
   var chatId = message.chat.id;
 
-  var picPath = './photos/photo_'+ new Date() +'.jpg';
+  var picPath = './photos/photo_'+ (new Date().getTime() / 100) +'.jpg';
 
   var camera = new RaspiCam({
     mode: 'photo',
