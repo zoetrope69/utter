@@ -276,7 +276,7 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 });
 
 function takePhoto(filename, callback){
-  var cmd = 'raspistill --hflip --vflip --mode 7 --quality 60 -o ' + filename;
+  var cmd = 'raspistill --hflip --vflip --quality 50 -o ' + filename;
 
   try {
     exec(cmd, function(){ callback() });
