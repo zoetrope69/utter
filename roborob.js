@@ -239,7 +239,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 // -- webcam stuff
 
 // matches for webcam
-bot.onText(/\/(webcam) (.+)/, function(message, match) {
+bot.onText(/\/(webcam)/, function(message, match) {
   console.log('/webcam');
 
   var chatId = message.chat.id;
@@ -265,6 +265,9 @@ bot.onText(/\/(webcam) (.+)/, function(message, match) {
 
     bot.sendMessage(chatId, '⚡ SNAP. Here it comes...');
 
+    // everything went well so we can kill the camera now
+    camera.stop();
+
     // send message that it's upping a photo
     bot.sendChatAction(chatId, 'upload_photo');
 
@@ -276,9 +279,6 @@ bot.onText(/\/(webcam) (.+)/, function(message, match) {
           bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
           return false;
         }
-
-        // everything went well so we can kill the camera now
-        camera.stop();
 
       });
 
