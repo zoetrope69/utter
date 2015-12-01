@@ -20,6 +20,7 @@ function replaceAll(str, find, replace) {
 
 // matches /speak
 bot.onText(/\/(speak) (.+)/, function (message, match) {
+  console.log('/speak');
 
   var chatId = message.chat.id;
   var text = match[2];
@@ -145,12 +146,13 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
 
 // matches gif or gifxxx
 bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
+  console.log('/gif|gifxxx');
 
   var chatId = message.chat.id,
       command = match[1],
       searchTerms = match[2];
 
-  console.log('Text sent back: ', searchTerms);
+  console.log('Text sent: ', searchTerms);
 
   // replace the emojis with their description
 
@@ -238,6 +240,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 
 // matches for webcam
 bot.onText(/\/(webcam) (.+)/, function(message, match) {
+  console.log('/webcam');
 
   var chatId = message.chat.id;
 
