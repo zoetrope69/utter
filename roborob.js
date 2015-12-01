@@ -4,7 +4,7 @@ var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
     request  = require('request'),
     gemoji   = require('gemoji'),
-    picam    = require('node-picamera');
+    exec     = require('child_process').exec;
 
 var bot = new telegram(process.env.TELEGRAM_TOKEN, { polling: true });
 
@@ -248,7 +248,7 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 
   bot.sendMessage(chatId, '📷 Taking a picture!');
 
-  picam.still(picPath, { width: 800, height: 600 }, function(err, stdin, stdout) {
+  takePhoto(picPath, function() {
     if (err) {
       // send message saying it didn't work
       console.log('Error ', err);
@@ -273,9 +273,16 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 
   });
 
-
-
-
-
-
 });
+
+function takePhoto(filename, callback){
+  var cmd = 'raspistill -o ' + filename;
+
+  try {
+    exec(cmd, callback);
+  } catch(e) {
+    console.log('Error: ', e);
+    callback();
+  }
+
+}
