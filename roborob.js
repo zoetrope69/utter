@@ -6,16 +6,6 @@ var telegram = require('node-telegram-bot-api'),
     gemoji   = require('gemoji'),
     RaspiCam = require('raspicam');
 
-var picPath = 'roborobsnap.jpg';
-
-var camera = new RaspiCam({
-	mode: 'timelapse',
-	output: picPath, // './timelapse/image_%06d.jpg' // image_000001.jpg, image_000002.jpg,...
-	encoding: 'jpg',
-	timelapse: 3000, // take a picture every 3 seconds
-	timeout: 12000 // take a total of 4 pictures over 12 seconds
-});
-
 var bot = new telegram(process.env.TELEGRAM_TOKEN, { polling: true });
 
 console.log('Bot started!');
@@ -246,43 +236,53 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 
 // -- webcam stuff
 
-camera.on("start", function( err, timestamp ){
-	console.log("timelapse started at " + timestamp);
-});
-
-camera.on("read", function( err, timestamp, filename ){
-	console.log("timelapse image captured with filename: " + filename);
-});
-
-camera.on("exit", function( timestamp ){
-	console.log("timelapse child process has exited");
-});
-
-camera.on("stop", function( err, timestamp ){
-	console.log("timelapse child process has been stopped at " + timestamp);
-});
-
-camera.start();
-
-// test stop() method before the full 12 seconds is up
-setTimeout(function(){
-	camera.stop();
-}, 10000);
-
 // matches for webcam
 bot.onText(/\/(webcam) (.+)/, function(message, match) {
 
-  // send message that it's upping a photo
-  bot.sendChatAction(chatId, 'upload_photo');
+  var chatId = message.chat.id;
 
-  bot.sendDocument(chatId, picPath)
-    .catch(function (err) {
-      if (err) {
-        // send message saying it didn't work
-        console.log('Error ', err);
-        bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
-        return false;
-      }
-    });
+  var picPath = './photos/photo_'+ new Date() +'.jpg';
+
+  var camera = new RaspiCam({
+    mode: 'photo',
+    output: picPath,
+    encoding: 'jpg',
+    timeout: 0 // take immediately
+  });
+
+  camera.start();
+
+  camera.on('start', function(err, timestamp){
+  	console.log('Started taking a photo at ' + timestamp);
+    bot.sendMessage(chatId, '📷 Taking a picture!');
+  });
+
+  camera.on('read', function(err, timestamp, filename){
+  	console.log('Photo captured with filename: ' + filename);
+
+    bot.sendMessage(chatId, '⚡ SNAP. Here it comes...');
+
+    // send message that it's upping a photo
+    bot.sendChatAction(chatId, 'upload_photo');
+
+    bot.sendDocument(chatId, picPath)
+      .catch(function (err) {
+        if (err) {
+          // send message saying it didn't work
+          console.log('Error ', err);
+          bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
+          return false;
+        }
+
+        // everything went well so we can kill the camera now
+        camera.stop();
+
+      });
+
+  });
+
+  camera.on('exit', function( timestamp){
+  	console.log('Stopped taking a photo');
+  });
 
 });
