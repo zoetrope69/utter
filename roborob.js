@@ -4,7 +4,7 @@ var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
     request  = require('request'),
     gemoji   = require('gemoji'),
-    RaspiCam = require('raspicam');
+    picam    = require('node-picamera');
 
 var bot = new telegram(process.env.TELEGRAM_TOKEN, { polling: true });
 
@@ -246,41 +246,15 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 
   var picPath = './photos/secret_spyce_island_photo_'+ (new Date().getTime()) +'.jpg';
 
-  var camera = new RaspiCam({
-    mode: 'photo',
-    output: picPath,
-    encoding: 'jpg',
-    timeout: 0 // take immediately
-  });
+  bot.sendMessage(chatId, '📷 Taking a picture!');
 
-  camera.on('start', function(err, timestamp){
+  picam.still(picPath, { width: 800, height: 600 }, function(err, stdin, stdout) {
     if (err) {
       // send message saying it didn't work
       console.log('Error ', err);
       bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
       return false;
     }
-
-    console.log('Started taking a photo at ' + timestamp);
-    bot.sendMessage(chatId, '📷 Taking a picture!');
-  });
-
-  camera.on('read', function(err, timestamp, filename){
-    if (err) {
-      // send message saying it didn't work
-      console.log('Error ', err);
-      bot.sendMessage(chatId, "❓ Something went wrong sending you the goods...");
-      return false;
-    }
-
-  	console.log('Photo captured with filename: ' + filename);
-
-    camera.stop();
-
-  });
-
-  camera.on('exit', function(timestamp){
-  	console.log('Stopped taking a photo');
 
     bot.sendMessage(chatId, '⚡ SNAP. Here it comes...');
 
@@ -296,8 +270,12 @@ bot.onText(/\/(spycecam)/, function(message, match) {
           return false;
         }
       });
+
   });
 
-  camera.start();
+
+
+
+
 
 });
