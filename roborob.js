@@ -248,7 +248,7 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 
   bot.sendMessage(chatId, '📷 Taking a picture!');
 
-  takePhoto(picPath, function() {
+  takePhoto(picPath, function(err) {
     if (err) {
       // send message saying it didn't work
       console.log('Error ', err);
@@ -279,10 +279,10 @@ function takePhoto(filename, callback){
   var cmd = 'raspistill -o ' + filename;
 
   try {
-    exec(cmd, callback);
+    exec(cmd, function(){ callback() });
   } catch(e) {
     console.log('Error: ', e);
-    callback();
+    callback(e);
   }
 
 }
