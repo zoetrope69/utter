@@ -239,20 +239,28 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 // -- webcam stuff
 
 // matches for webcam
-bot.onText(/\/(spycecam) (.*)/, function(message, match) {
-  console.log('/spycecam');
+bot.onText(/\/(cam) (.*)/, function(message, match) {
+  console.log('/cam');
 
   var chatId = message.chat.id;
-  var text = match[2];
+  var text = '' + match[2];
 
   var picPath = './photos/secret_spyce_island_photo_'+ (new Date().getTime()) +'.jpg';
 
   bot.sendMessage(chatId, '📷 Taking a picture!');
 
   var effect;
+  var preppedText = text.trim();
 
-  if ( imageEffects.indexOf( text.trim() ) > -1 ) {
-    effect = text.trim();
+  // if there's more than spaces
+  if (preppedText.length > 0) {
+
+    if ( imageEffects.indexOf( preppedText ) > -1 ) {
+      effect = preppedText;
+    }else{
+      bot.sendMessage(chatId, "⚠️ No effect called '" + preppedText + "'. Sending anyway!");
+    }
+
   }
 
   takePhoto(picPath, effect, function(err) {
@@ -263,7 +271,7 @@ bot.onText(/\/(spycecam) (.*)/, function(message, match) {
       return false;
     }
 
-    bot.sendMessage(chatId, '⚡ SNAP. Here it comes...');
+    bot.sendMessage(chatId, '🖼 SNAP. Here it comes...');
 
     // send message that it's upping a photo
     bot.sendChatAction(chatId, 'upload_photo');
@@ -286,25 +294,16 @@ var imageEffects = [
   'negative', // Negate the image
   'solarise', // Solarise the image
   'posterise', // Posterise the image
-  'whiteboard', // Whiteboard effect
-  'blackboard', // Blackboard effect
   'sketch', // Sketch style effect
   'denoise', // Denoise the image
   'emboss', // Emboss the image
   'oilpaint', // Apply an oil paint style effect
   'hatch', // Hatch sketch style
-  'gpen',
   'pastel', // A pastel style effect
   'watercolour', // A watercolour style effect
   'film', // Film grain style effect
   'blur', // Blur the image
-  'saturation', // Colour saturate the image
-  'colourswap', // Not fully implemented
-  'washedout', // Not fully implemented
-  'posterise', // Not fully implemented
-  'colourpoint', // Not fully implemented
-  'colourbalance', // Not fully implemented
-  'cartoon' // Not fully implemented
+  'colourswap', // Swaps the colours or something
 ];
 
 function takePhoto(filename, effect, callback){
