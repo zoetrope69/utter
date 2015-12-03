@@ -239,16 +239,23 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 // -- webcam stuff
 
 // matches for webcam
-bot.onText(/\/(spycecam)/, function(message, match) {
+bot.onText(/\/(spycecam) (.*)/, function(message, match) {
   console.log('/spycecam');
 
   var chatId = message.chat.id;
+  var text = match[2];
 
   var picPath = './photos/secret_spyce_island_photo_'+ (new Date().getTime()) +'.jpg';
 
   bot.sendMessage(chatId, '📷 Taking a picture!');
 
-  takePhoto(picPath, function(err) {
+  var effect;
+
+  if ( imageEffects.indexOf( text.trim() ) > -1 ) {
+    effect = text.trim();
+  }
+
+  takePhoto(picPath, effect, function(err) {
     if (err) {
       // send message saying it didn't work
       console.log('Error ', err);
@@ -275,8 +282,37 @@ bot.onText(/\/(spycecam)/, function(message, match) {
 
 });
 
-function takePhoto(filename, callback){
-  var cmd = 'raspistill --hflip --vflip --quality 50 -o ' + filename;
+var imageEffects = [
+  'negative', // Negate the image
+  'solarise', // Solarise the image
+  'posterise', // Posterise the image
+  'whiteboard', // Whiteboard effect
+  'blackboard', // Blackboard effect
+  'sketch', // Sketch style effect
+  'denoise', // Denoise the image
+  'emboss', // Emboss the image
+  'oilpaint', // Apply an oil paint style effect
+  'hatch', // Hatch sketch style
+  'gpen',
+  'pastel', // A pastel style effect
+  'watercolour', // A watercolour style effect
+  'film', // Film grain style effect
+  'blur', // Blur the image
+  'saturation', // Colour saturate the image
+  'colourswap', // Not fully implemented
+  'washedout', // Not fully implemented
+  'posterise', // Not fully implemented
+  'colourpoint', // Not fully implemented
+  'colourbalance', // Not fully implemented
+  'cartoon' // Not fully implemented
+];
+
+function takePhoto(filename, effect, callback){
+  var width = 640;
+  var height = 480;
+  var effect = effect || 'none';
+
+  var cmd = 'raspistill --width ' + width + ' --height ' + height + ' --hflip --vflip --imxfx ' + effect + ' --quality 50 -o ' + filename;
 
   try {
     exec(cmd, function(){ callback() });
