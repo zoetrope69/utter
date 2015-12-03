@@ -239,7 +239,7 @@ bot.onText(/\/(gif|gifxxx) (.+)/, function(message, match) {
 // -- webcam stuff
 
 // matches for webcam
-bot.onText(/\/(cam) (.*)/, function(message, match) {
+bot.onText(/\/(cam)(.*)/, function(message, match) {
   console.log('/cam');
 
   var chatId = message.chat.id;
@@ -258,7 +258,7 @@ bot.onText(/\/(cam) (.*)/, function(message, match) {
     if ( imageEffects.indexOf( preppedText ) > -1 ) {
       effect = preppedText;
     }else{
-      bot.sendMessage(chatId, "⚠️ No effect called '" + preppedText + "'. Sending anyway!");
+      bot.sendMessage(chatId, "🎨 No effect called '" + preppedText + "'. Sending anyway!");
     }
 
   }
@@ -271,7 +271,7 @@ bot.onText(/\/(cam) (.*)/, function(message, match) {
       return false;
     }
 
-    bot.sendMessage(chatId, '🖼 SNAP. Here it comes...');
+    bot.sendMessage(chatId, '⚡ SNAP. Here it comes...');
 
     // send message that it's upping a photo
     bot.sendChatAction(chatId, 'upload_photo');
