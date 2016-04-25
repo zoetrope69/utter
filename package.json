@@ -1,18 +1,16 @@
 {
-  "name": "roborob",
+  "name": "utterbot",
   "version": "1.0.0",
   "description": "a bot for our house telegram",
-  "main": "roborob.js",
+  "main": "utter.js",
   "scripts": {
-    "start": "node roborob.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node utter.js"
   },
   "author": "Zac Colley <hi@zaccolley.com> (http://zaccolley.com)",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^1.2.0",
     "emoji-strip": "0.0.3",
-    "gemoji": "^1.0.0",
     "giphy": "0.0.4",
     "node-telegram-bot-api": "^0.15.0",
     "request": "^2.65.0"
