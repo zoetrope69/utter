@@ -3,6 +3,7 @@ require('dotenv').load();
 var telegram = require('node-telegram-bot-api'),
     giphy    = require('giphy')(process.env.GIPHY_API_KEY),
     request  = require('request'),
+    stripEmoji   = require('emoji-strip'),
     gemoji   = require('gemoji'),
     exec     = require('child_process').exec;
 
@@ -139,7 +140,7 @@ bot.onText(/\/(speak) (.+)/, function (message, match) {
               '&voice=' + voice +
               '&speed=' + speed +
               '&pitch=' + pitch +
-              '&text=' + text;
+              '&text=' + stripEmoji(text);
 
   bot.sendVoice(chatId, request(url));
 });

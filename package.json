@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^1.2.0",
+    "emoji-strip": "0.0.3",
     "gemoji": "^1.0.0",
     "giphy": "0.0.4",
     "node-telegram-bot-api": "^0.15.0",
